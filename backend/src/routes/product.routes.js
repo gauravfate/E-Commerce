@@ -14,6 +14,7 @@ router.route("/testing")
     try {
         console.log("req.file___",req.file);
         console.log("req.files____",req.files);
+        console.log("req.headers____",req.headers);
 
         if (!req.files) {
             return res.status(400).json({ msg: "No file to upload." });

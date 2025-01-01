@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import { ApiError } from "./ApiError.js";
-import dotenv from "dotenv"
-import fs from "fs"
+import dotenv from "dotenv";
+import fs from "fs";
 dotenv.config();
 
 cloudinary.config({
@@ -10,6 +10,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// this is using multer
 async function uploadOnCloudinary(fileBuffer) {
     try {
         if (!fileBuffer) return null;
@@ -37,23 +38,34 @@ async function uploadOnCloudinary(fileBuffer) {
     }
 }
 
+// this is using the express-fileupload
 const uploadToCloudinary = async (localFilePath) => {
     try {
-        if(!localFilePath) return null;
-        // upload on cloudinary
+        if (!localFilePath) return null;
+        // Upload to Cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
+            folder: "E-Commerce Products",
             resource_type: "auto",
-            allowed_formats: ["jpg","png"]
-        })
+        });
 
-        console.log("File Uploaded");
+        // After successful upload, remove temporary file
+        await removeTmp(localFilePath); // Ensure the file is removed asynchronously
         return response;
-
     } catch (error) {
-        console.log("Error While uploading to cloudinary", error);
-        fs.unlink(localFilePath);
+        console.log("Error while uploading to Cloudinary", error);
+        // Ensure the file is removed even if the upload fails
+        await removeTmp(localFilePath);
         return null;
     }
-}
+};
+
+const removeTmp = async (localFilePath) => {
+    try {
+        await fs.promises.unlink(localFilePath); // Use promises to handle the unlink
+        console.log("Temporary file removed:", localFilePath);
+    } catch (err) {
+        console.log("Error removing temporary file:", localFilePath, err);
+    }
+};
 
 export { uploadOnCloudinary, uploadToCloudinary };
