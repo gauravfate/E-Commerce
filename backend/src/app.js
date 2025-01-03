@@ -35,7 +35,7 @@ import upload from "./routes/upload.route.js"
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", category);
-app.use("/api/v1/upload" , upload)
+app.use("/api/v1/upload" , upload)  // testing route implemented
 app.use("/api/v1/product", product);
 
 app.get("/", (req,res)=> {

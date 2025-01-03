@@ -14,7 +14,12 @@ router.post(
         // console.log("/upload : ",req.files);
 
         const files = req.files.file;
+        const {name} = req.body;
 
+        console.log(name);
+        if(!name) {
+            res.send("No Body");
+        }
         // If multiple files are uploaded, `files` will be an array
         if (Array.isArray(files)) {
             const productDetails = (

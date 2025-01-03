@@ -2,7 +2,7 @@ import Product from "../models/product.model.js";
 import { ApiResponse } from "../utils/ApiResponce.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { uploadOnCloudinary } from "../utils/cloudinaryUpload.js";
+import { uploadOnCloudinary, uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 class ApiFeatures {
     constructor(query, queryString) {
@@ -10,35 +10,31 @@ class ApiFeatures {
     }
 
     filtering() {
-        const queryObj = {...this.queryString};
+        const queryObj = { ...this.queryString };
         console.log(queryObj);
-        
+
         const excludedFields = ["page", "limit", "sort"];
-        
-        excludedFields.forEach(el => delete(queryObj[el]))
-        
+
+        excludedFields.forEach((el) => delete queryObj[el]);
+
         let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, match => '$' + match)
+        queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => "$" + match);
 
         console.log(queryStr);
-        
-        this.query.find(JSON.parse(queryStr))
 
-        return this
+        this.query.find(JSON.parse(queryStr));
+
+        return this;
     }
 
-    sorting() {
+    sorting() {}
 
-    }
-
-    pagination() {
-
-    }
+    pagination() {}
 }
 
 const getProducts = asyncHandler(async (req, res) => {
     // console.log(req.query);
-    
+
     const features = new ApiFeatures(Product.find(), req.query).filtering();
     const allProducts = await features.query;
 
@@ -47,17 +43,13 @@ const getProducts = asyncHandler(async (req, res) => {
 
 const createProduct = asyncHandler(async (req, res) => {
     const { product_id, title, price, description, content, category } = req.body;
-    const photos = req.files;
-
-    console.log("photos: ", req.files);
+    const photos = req.files.file;
 
     if (!photos) {
         throw new ApiError(400, "Provide Images");
     }
 
     const product = await Product.findOne({ product_id });
-
-    // console.log(product);
 
     if (product) {
         throw new ApiError(400, "Product Already Exists");
@@ -73,24 +65,47 @@ const createProduct = asyncHandler(async (req, res) => {
     //     }
     // }
 
-    // // one way to upload
-    const productSecureUrls = (
-        await Promise.all(
-            req.files.map(async (file) => {
-                try {
-                    const upload = await uploadOnCloudinary(file.buffer);
-                    console.log(file.buffer);
-                    
-                    return upload.secure_url;
-                } catch (error) {
-                    console.error("Failed to upload file:", file.originalname, error);
-                    return null;
-                }
-            })
-        )
-    ).filter((url) => url !== null);
+    // one way to upload
+    // const productSecureUrls = (
+    //     await Promise.all(
+    //         req.files.map(async (file) => {
+    //             try {
+    //                 const upload = await uploadOnCloudinary(file.buffer);
+    //                 console.log(file.buffer);
 
-    console.log("Product Urls :: ",productSecureUrls);
+    //                 return upload.secure_url;
+    //             } catch (error) {
+    //                 console.error("Failed to upload file:", file.originalname, error);
+    //                 return null;
+    //             }
+    //         })
+    //     )
+    // ).filter((url) => url !== null);
+    
+    let productSecureUrls;
+    if (Array.isArray(photos)) {
+        productSecureUrls = (
+            await Promise.all(
+                photos.map(async (file) => {
+                    try {
+                        const upload = await uploadToCloudinary(file.tempFilePath);
+
+                        return upload.secure_url;
+                    } catch (error) {
+                        console.log("Failed to upload file: ", file.name, error);
+                        return null;
+                    }
+                })
+            )
+        ).filter((url) => url !== null);
+    }
+    // If only a single file was uploaded, process it directly
+    else {
+        productSecureUrls = await uploadToCloudinary(files.tempFilePath);
+        console.log("single file");
+    }
+
+    // console.log("Product Urls :: ",productSecureUrls);
 
     if (productSecureUrls.length == 0) {
         throw new ApiError(400, "Failed To Upload Product Images");
