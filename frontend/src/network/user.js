@@ -1,4 +1,4 @@
-async function fetchData(input, init) {
+export async function fetchData(input, init) {
     const response = await fetch(input, init);
     if (response.ok) {
         return response;

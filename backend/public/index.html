@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Testing</h1>
+    <form action="/api/v1/product" method="POST" enctype="multipart/form-data">
+        <label for="file">Choose a file:</label>
+        <input type="file" name="file" id="file" multiple><br>
+        <label for="product_id">product_id:</label>
+        <input type="text" name="product_id"><br>
+
+        <label for="title">Title:</label>
+        <input type="text" name="title"><br>
+
+        <label for="price">Price:</label>
+        <input type="text" name="price"><br>
+
+        <label for="description">description:</label>
+        <input type="text" name="description"><br>
+
+        <label for="content">content:</label>
+        <input type="text" name="content"><br>
+
+        <label for="category">category:</label>
+        <input type="text" name="category"><br>
+        
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

@@ -8,7 +8,8 @@ const AdminPanel = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(user?.role != "ADMIN") { 
+        if (!user) return; // Don't navigate if user data isn't available yet
+        if (user?.role !== "ADMIN") { 
             navigate("/");
         }
     }, [user, navigate]);

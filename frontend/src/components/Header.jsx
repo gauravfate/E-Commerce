@@ -29,7 +29,7 @@ const Header = () => {
     };
 
     return (
-        <header className="h-16 shadow-md bg-white">
+        <header className="h-[4.5rem] bg-white border-b border-gray-200">
             <div className="h-full container mx-auto flex justify-between items-center px-10 ">
                 <div>
                     <Link to={"/"}>
@@ -81,9 +81,9 @@ const Header = () => {
                     </div>
 
                     <div className="text-2xl relative">
-                        <span>
+                        <Link to={"/cart"}>
                             <IoCartOutline />
-                        </span>
+                        </Link>
 
                         <div className="absolute -top-2 left-3 text-xs bg-red-500 w-5 h-5 p-2 flex justify-center items-center rounded-full">
                             <p className="text-white">0</p>

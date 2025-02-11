@@ -8,6 +8,8 @@ import AdminPanel from "../pages/AdminPanel";
 import AddProduct from "../pages/Admin/AddProduct";
 import AllProducts from "../pages/Admin/AllProducts";
 import SingUpAdmin from "../pages/Admin/SingUpAdmin";
+import ProductDetail from "../pages/ProductDetail";
+import CartPage from "../pages/Cart";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
             {
                 path: "/sign-up",
                 element: <SignUp />,
+            },
+            {
+                path: "/product/:id",
+                element: <ProductDetail />,
+            },
+            {
+                path: "/cart",
+                element: <CartPage />
             },
             // admin register page
             {

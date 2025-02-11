@@ -7,18 +7,22 @@ const AddProduct = () => {
     const [allUser, setAllUser] = useState([]);
     const { register, handleSubmit } = useForm();
     const [category, setCategory] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getUsers = async () => {
-            const users = await getAddProduct();
-
-            setAllUser(users.data);
-            // console.log(users.data);
+            try {
+                const users = await getAddProduct();
+                setAllUser(users.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-
         getUsers();
     }, []);
-
+    
     const productInfo = () => {};
 
     const categoriesProducts = ["Airpodes", "Camera", "Earphones", "Mobiles", "Mouse"];
@@ -53,7 +57,7 @@ const AddProduct = () => {
                         {categoriesProducts.map((category) => {
                             return (
                                 <option
-                                    onClick={(e) => setCategory(e.target.val)}
+                                    onClick={(e) => setCategory(e.target.value)}
                                     key={category}
                                     value={category}
                                 >

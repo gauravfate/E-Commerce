@@ -11,7 +11,7 @@ class ApiFeatures {
 
     filtering() {
         const queryObj = { ...this.queryString };
-        console.log(queryObj);
+        // console.log(queryObj);
 
         const excludedFields = ["page", "limit", "sort"];
 
@@ -20,22 +20,47 @@ class ApiFeatures {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => "$" + match);
 
-        console.log(queryStr);
+        console.log("Query String: ", queryStr);
 
         this.query.find(JSON.parse(queryStr));
 
         return this;
     }
 
-    sorting() {}
+    sorting() {
+        if (this.queryString.sort) {
+            const sortBy = this.queryString.sort.split(",").join(" ");
 
-    pagination() {}
+            this.query = this.query.sort(sortBy);
+
+            // console.log(sortBy);
+        } else {
+            this.query = this.query.sort("-createdAt");
+        }
+
+        return this;
+    }
+
+    pagination() {
+        const page = this.queryString.page * 1 || 1; // multiply 1 to convert string to number
+
+        const limit = this.queryString.limit * 1 || 9;
+
+        const skip = (page - 1) * limit;
+
+        this.query = this.query.skip(skip).limit(limit);
+
+        return this;
+    }
 }
 
 const getProducts = asyncHandler(async (req, res) => {
     // console.log(req.query);
 
-    const features = new ApiFeatures(Product.find(), req.query).filtering();
+    const features = new ApiFeatures(Product.find(), req.query)
+        .filtering()
+        .sorting()
+        .pagination();
     const allProducts = await features.query;
 
     res.status(200).json(new ApiResponse(200, allProducts, "All Products"));
@@ -81,7 +106,7 @@ const createProduct = asyncHandler(async (req, res) => {
     //         })
     //     )
     // ).filter((url) => url !== null);
-    
+
     let productSecureUrls;
     if (Array.isArray(photos)) {
         productSecureUrls = (
@@ -173,4 +198,14 @@ const updateProduct = asyncHandler(async (req, res) => {
     );
 });
 
-export { getProducts, createProduct, deleteProduct, updateProduct };
+const getProduct = asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        throw new ApiError(404, "Product Not Found");
+    }
+
+    res.status(200).json(new ApiResponse(200, product, "Product With ID"));
+});
+
+export { getProducts, createProduct, deleteProduct, updateProduct, getProduct };
