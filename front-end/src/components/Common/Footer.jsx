@@ -78,7 +78,7 @@ const Footer = () => {
                     <h3 className="text-lg text-gray-800 mb-4">Shop</h3>
                     <ul className="space-y-2 text-gray-800">
                         {shopLinks.map((list) => (
-                            <li id={list.name}>
+                            <li key={list.name}>
                                 <Link
                                     to={list.linkTo}
                                     className="hover:text-gray-500 transition-colors"
@@ -95,7 +95,7 @@ const Footer = () => {
                     <h3 className="text-lg text-gray-800 mb-4">Support</h3>
                     <ul className="space-y-2 text-gray-800">
                         {supportLinks.map((list) => (
-                            <li id={list.name}>
+                            <li key={list.name}>
                                 <Link
                                     to={list.linkTo}
                                     className="hover:text-gray-500 transition-colors"

@@ -5,3 +5,17 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+/* Custom scrollbar styles for modern browsers */
+.scrollable-container::-webkit-scrollbar {
+  height: 8px; /* for horizontal scrollbar */
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

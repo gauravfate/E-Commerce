@@ -100,7 +100,7 @@ const Navbar = () => {
                         {
                             navList.map(link => (
                                 <Link
-                                    id={link.nav}
+                                    key={link.nav}
                                     to={link.to}    
                                     onClick={toggleNavDrawer}
                                     className="block text-gray-600 hover:text-black"
