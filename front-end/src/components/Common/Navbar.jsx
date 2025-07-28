@@ -9,7 +9,7 @@ const Navbar = () => {
     const navList = [
         {
             nav: "Men",
-            to: "/men",
+            to: "/collections/all",
         },
         {
             nav: "Women",
