@@ -1,5 +1,4 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { data } from "react-router-dom";
 
 const PayPalButton = ({amount, onSuccess, onError}) => {
     return (
