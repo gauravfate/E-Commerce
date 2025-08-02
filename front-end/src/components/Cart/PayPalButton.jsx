@@ -1,11 +1,10 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-const PayPalButton = ({amount, onSuccess, onError}) => {
+const PayPalButton = ({ amount, onSuccess, onError }) => {
     return (
         <PayPalScriptProvider
             options={{
-                "client-id":
-                    "AaCqHK70plbkffjT_JBE031d2Hh6bIaVBr5-5uFkZX3-fl9OpJM6s4t8BFOpFzJ4ijX2s3UCnwAZb2RZ",
+                "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
             }}
         >
             <PayPalButtons
@@ -15,12 +14,11 @@ const PayPalButton = ({amount, onSuccess, onError}) => {
                         purchase_units: [{ amount: { value: amount } }],
                     });
                 }}
-                onApprove={(data, actions)=> {
-                    return actions.order.capture().then(onSuccess)
+                onApprove={(data, actions) => {
+                    return actions.order.capture().then(onSuccess);
                 }}
-                onError={(onError)}
+                onError={onError}
             />
-
         </PayPalScriptProvider>
     );
 };
