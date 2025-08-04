@@ -61,6 +61,12 @@ const Navbar = () => {
 
                 {/* Right - icons */}
                 <div className="flex items-center space-x-4">
+                    <Link
+                        to={"/admin"}
+                        className="block bg-black px-2 rounded text-sm text-white"
+                    >
+                        Admin
+                    </Link>
                     <Link to={"/profile"} className="hover:text-black">
                         <HiOutlineUser className={classForIcons} />
                     </Link>
@@ -91,25 +97,22 @@ const Navbar = () => {
             >
                 <div className="flex justify-end p-4">
                     <button onClick={toggleNavDrawer}>
-                        <IoMdClose className="h-6 w-6 text-gray-600"/>
+                        <IoMdClose className="h-6 w-6 text-gray-600" />
                     </button>
                 </div>
                 <div className="p-4">
                     <h2 className="text-xl font-semibold mb-4">Menu</h2>
                     <nav className="space-y-4">
-                        {
-                            navList.map(link => (
-                                <Link
-                                    key={link.nav}
-                                    to={link.to}    
-                                    onClick={toggleNavDrawer}
-                                    className="block text-gray-600 hover:text-black"
-                                >
-                                    {link.nav}
-                                </Link>
-
-                            ))
-                        }
+                        {navList.map((link) => (
+                            <Link
+                                key={link.nav}
+                                to={link.to}
+                                onClick={toggleNavDrawer}
+                                className="block text-gray-600 hover:text-black"
+                            >
+                                {link.nav}
+                            </Link>
+                        ))}
                     </nav>
                 </div>
             </div>
