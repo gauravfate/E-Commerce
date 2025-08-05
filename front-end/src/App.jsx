@@ -13,6 +13,7 @@ import OrderDegtailsPage from "./Pages/OrderDegtailsPage";
 import MyOrderPage from "./Pages/MyOrderPage";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminHomePage from "./Pages/AdminHomePage";
+import UserManagement from "./components/Admin/UserManagement";
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/admin" element={<AdminLayout />}>
                     {/* Admin Layout */}
                     <Route index element={<AdminHomePage />} />
+                    <Route path="users" element={<UserManagement />} />
                 </Route>
             </Routes>
         </BrowserRouter>
