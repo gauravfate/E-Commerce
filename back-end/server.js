@@ -22,9 +22,11 @@ app.get("/", (req, res) => {
 
 // routes Import
 import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 // API Routes
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
