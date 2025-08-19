@@ -1,6 +1,12 @@
 import express from "express";
 import protect from "../middleware/authMiddleware.js";
-import { addToCart, deleteFromCart, updateCart, userCart } from "../controllers/cart.controller.js";
+import {
+    addToCart,
+    deleteFromCart,
+    mergeCart,
+    updateCart,
+    userCart,
+} from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
@@ -23,5 +29,10 @@ router.route("/").delete(deleteFromCart);
 // @desc Get logged-in user's or guest user's cart
 // @access Public
 router.route("/").get(userCart);
+
+// @route POST /api/cart/merge
+// @desc Merge guest cart into user on login
+// @access Private
+router.route("/merge").post(protect, mergeCart);
 
 export default router;
