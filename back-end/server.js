@@ -30,6 +30,7 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import subscriberRoutes from "./routes/subscriberRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import productAdminRoutes from "./routes/productAdminRoutes.js";
+import orderAdminRoutes from "./routes/adminOrderRoutes.js";
 
 // API Routes
 app.use("/api/users", userRoutes);
@@ -43,6 +44,7 @@ app.use("/api", subscriberRoutes);
 // Admin
 app.use("/api/admin/users", adminRoutes);
 app.use("/api/admin/products", productAdminRoutes);
+app.use("/api/admin/orders", orderAdminRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
