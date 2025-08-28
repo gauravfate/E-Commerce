@@ -27,7 +27,9 @@ import cartRoutes from "./routes/cartRoutes.js";
 import checkoutRoutes from "./routes/checkoutRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
-import subscriberRoutes from './routes/subscriberRoutes.js'
+import subscriberRoutes from "./routes/subscriberRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import productAdminRoutes from "./routes/productAdminRoutes.js";
 
 // API Routes
 app.use("/api/users", userRoutes);
@@ -37,6 +39,10 @@ app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api", subscriberRoutes);
+
+// Admin
+app.use("/api/admin/users", adminRoutes);
+app.use("/api/admin/products", productAdminRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
