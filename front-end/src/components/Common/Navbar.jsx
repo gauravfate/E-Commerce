@@ -4,29 +4,36 @@ import { HiOutlineUser, HiOutlineShoppingBag, HiBars3BottomRight } from "react-i
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     const navList = [
         {
             nav: "Men",
-            to: "/collections/all",
+            to: "/collections/all?gender=Men",
         },
         {
             nav: "Women",
-            to: "#",
+            to: "/collections/all?gender=Women",
         },
         {
             nav: "Top Wear",
-            to: "#",
+            to: "/collections/all?category=Top Wear",
         },
         {
             nav: "Bottom Wear",
-            to: "#",
+            to: "/collections/all?category=Bottom Wear",
         },
     ];
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+    const { cart } = useSelector((state) => state.cart);
+
+    const cartItemCount = cart.products?.reduce(
+        (total, product) => total + product.quantity,
+        0
+    );
 
     const toggleNavDrawer = () => {
         setNavDrawerOpen(!navDrawerOpen);
@@ -75,9 +82,11 @@ const Navbar = () => {
                         className="relative hover:text-black"
                     >
                         <HiOutlineShoppingBag className={classForIcons} />
-                        <span className="absolute -top-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
-                            4
-                        </span>
+                        {cartItemCount > 0 && (
+                            <span className="absolute -top-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                                {cartItemCount}
+                            </span>
+                        )}
                     </button>
                     {/* Search Icon */}
                     <SearchBar />

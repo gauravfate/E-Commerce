@@ -1,35 +1,5 @@
 import React from "react";
 
-const chekout = {
-    _id: "123",
-    createdAt: new Date(),
-    checkoutItems: [
-        {
-            productId: "1",
-            name: "Jacket",
-            color: "black",
-            size: "M",
-            price: 150,
-            quantity: 1,
-            image: "https://picsum.photos/150?random=1",
-        },
-        {
-            productId: "2",
-            name: "T-shirt",
-            color: "black",
-            size: "M",
-            price: 150,
-            quantity: 1,
-            image: "https://picsum.photos/150?random=2",
-        },
-    ],
-    shippingAddress: {
-        address: "123 street",
-        city: "India",
-        country: "India",
-    },
-};
-
 const OrderConfirmationPage = () => {
     const calculateEstimatedDelivery = (createdAt) => {
         const orderDate = new Date(createdAt);
