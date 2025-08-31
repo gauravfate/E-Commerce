@@ -52,7 +52,7 @@ export const updateUser = createAsyncThunk(
                 },
             }
         );
-        return response.data;
+        return response.data.user;
     }
 );
 
@@ -109,7 +109,7 @@ const adminSlice = createSlice({
             })
             // delete user
             .addCase(deleteUser.fulfilled, (state, action) => {
-                state.users = state.users.filter((user) => user._id === action.payload);
+                state.users = state.users.filter((user) => user._id !== action.payload);
             })
             .addCase(addUser.pending, (state) => {
                 state.loading = true;

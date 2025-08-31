@@ -1,6 +1,23 @@
-import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/slices/cartSlice";
 
 const OrderConfirmationPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { checkout } = useSelector((state) => state.checkout);
+
+    // clear the cart
+    useEffect(() => {
+        if (checkout && checkout._id) {
+            dispatch(clearCart());
+            localStorage.removeItem("cart");
+        } else {
+            navigate("/my-orders");
+        }
+    }, [checkout, dispatch, navigate]);
+
     const calculateEstimatedDelivery = (createdAt) => {
         const orderDate = new Date(createdAt);
         orderDate.setDate(orderDate.getDate() + 10); // Add 10 days to order Date
@@ -13,15 +30,15 @@ const OrderConfirmationPage = () => {
                 Thank You For Order!
             </h1>
 
-            {chekout && (
+            {checkout && (
                 <div className="p-6 rounded-lg border">
                     <div className="flex justify-between mb-20">
                         {/* order Id and Date */}
                         <div>
-                            <h2 className="text-gray-500">Order Id: {chekout._id}</h2>
+                            <h2 className="text-gray-500">Order Id: {checkout._id}</h2>
                             <p className="text-gray-500">
                                 Order Date:{" "}
-                                {new Date(chekout.createdAt).toLocaleDateString()}
+                                {new Date(checkout.createdAt).toLocaleDateString()}
                             </p>
                         </div>
 
@@ -29,14 +46,14 @@ const OrderConfirmationPage = () => {
                         <div>
                             <p className="text-emerald-700 text-sm">
                                 Estimated Delivery:{" "}
-                                {calculateEstimatedDelivery(chekout.createdAt)}
+                                {calculateEstimatedDelivery(checkout.createdAt)}
                             </p>
                         </div>
                     </div>
 
                     {/* Ordered Items */}
                     <div>
-                        {chekout.checkoutItems.map((item) => (
+                        {checkout.checkoutItems.map((item) => (
                             <div key={item.productId} className="flex items-center mb-4">
                                 <img
                                     src={item.image}
@@ -71,11 +88,11 @@ const OrderConfirmationPage = () => {
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Delivery</h4>
                             <p className="text-gray-600">
-                                {chekout.shippingAddress.address}
+                                {checkout.shippingAddress.address}
                             </p>
                             <p className="text-gray-600">
-                                {chekout.shippingAddress.city},{" "}
-                                {chekout.shippingAddress.city}
+                                {checkout.shippingAddress.city},{" "}
+                                {checkout.shippingAddress.city}
                             </p>
                         </div>
                     </div>

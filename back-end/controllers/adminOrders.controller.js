@@ -12,7 +12,7 @@ export const allOrders = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findById(req.params.id).populate("user", "name email");
         if (order) {
             order.status = req.body.status || order.status;
             order.isDelivered =
