@@ -72,7 +72,7 @@ const Navbar = () => {
                     {user && user.role === "admin" && (
                         <Link
                             to={"/admin"}
-                            className="block bg-black px-2 rounded text-sm text-white"
+                            className="block bg-black px-2 py-1 rounded text-sm text-white"
                         >
                             Admin
                         </Link>
